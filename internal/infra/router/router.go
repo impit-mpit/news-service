@@ -2,6 +2,8 @@ package router
 
 import (
 	"context"
+	"log"
+	"net"
 	newsv1 "neuro-most/news-service/gen/go/news/v1"
 	"neuro-most/news-service/internal/adapters/api/action"
 	"neuro-most/news-service/internal/adapters/api/presenter"
@@ -24,8 +26,20 @@ func NewRouter(db repo.GSQL) Router {
 }
 
 func (r *Router) Listen() {
-	srv := grpc.NewServer()
+	port := ":3001"
+	lis, err := net.Listen("tcp", port)
+	if err != nil {
+		log.Fatalf("failed to listen: %v", err)
+	}
+
+	var opts = []grpc.ServerOption{}
+	srv := grpc.NewServer(opts...)
 	newsv1.RegisterNewsServiceServer(srv, r)
+
+	log.Printf("Starting gRPC server on port %s\n", port)
+	if err := srv.Serve(lis); err != nil {
+		log.Fatalf("failed to serve: %v", err)
+	}
 }
 
 func (r *Router) CreateNews(ctx context.Context, input *newsv1.CreateNewsRequest) (*emptypb.Empty, error) {
