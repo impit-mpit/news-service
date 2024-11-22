@@ -1,0 +1,59 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: news-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: news-service
+  template:
+    metadata:
+      labels:
+        app: news-service
+    spec:
+      containers:
+      - name: news-service
+        image: ghcr.io/impit-mpit/news-service-master:latest
+        ports:
+        - containerPort: 3001
+          name: grpc
+        env:
+        - name: DB_HOST
+          value: "10.0.0.9"
+        - name: DB_PORT
+          value: "5432"
+        - name: DB_NAME
+          valueFrom:
+            configMapKeyRef:
+              name: news-config
+              key: db_name
+        - name: DB_USER
+          valueFrom:
+            secretKeyRef:
+              name: database-secrets
+              key: db_user
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: database-secrets
+              key: db_password
+        resources:
+          requests:
+            cpu: "100m"
+            memory: "128Mi"
+          limits:
+            cpu: "500m"
+            memory: "512Mi"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: news-service
+spec:
+  selector:
+    app: news-service
+  ports:
+  - port: 3001
+    targetPort: 3001
+    name: grpc
