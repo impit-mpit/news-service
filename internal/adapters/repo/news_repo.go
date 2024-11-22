@@ -74,9 +74,10 @@ func (n NewsRepo) GetByID(ctx context.Context, id int64) (entities.News, error) 
 
 func (n NewsRepo) Fetch(ctx context.Context, cursor int64, num int64) ([]entities.News, int64, error) {
 	var news []newsGORM
-	query := n.db.BeginFind(ctx, &news).Page(int(cursor), int(num)).OrderBy("id desc")
+	query := n.db.BeginFind(ctx, &news)
 	var total int64
 	query.Count(total)
+	query = query.Page(int(cursor), int(num)).OrderBy("id desc")
 	err := query.Find(&news)
 	if err != nil {
 		return nil, 0, entities.ErrorNewsFetch
