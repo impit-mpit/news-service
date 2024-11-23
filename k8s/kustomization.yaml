@@ -4,7 +4,6 @@ resources:
 - virtual-service.yaml
 - config.yaml
 - deployment.yaml
-- ingress.yaml
 images:
 - name: ghcr.io/impit-mpit//news-service-master
   newTag: fc4f514
