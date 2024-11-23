@@ -39,7 +39,7 @@ jobs:
       - name: Update Kustomize image tag
         run: |
               cd k8s
-              kustomize edit set image ghcr.io/impit-mpit//news-service-${{ github.ref_name }}:${{ steps.vars.outputs.sha_short }}
+              kustomize edit set image ghcr.io/impit-mpit/news-service-${{ github.ref_name }}:${{ steps.vars.outputs.sha_short }}
               
       - name: Commit and push changes
         run: |
