@@ -6,6 +6,6 @@ resources:
 - ingress.yaml
 images:
 - name: ghcr.io/impit-mpit//news-service-master
-  newTag: bc72d80
+  newTag: fc4f514
 - name: ghcr.io/impit-mpit/news-service-master
   newTag: latest
