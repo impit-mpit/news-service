@@ -24,7 +24,7 @@ type Find interface {
 	Join(query string, args ...interface{}) Find
 	Or(query interface{}, args ...interface{}) Find
 	Not(query interface{}, args ...interface{}) Find
-	Count(total int64) error
+	Count(total *int64) error
 	Find(result interface{}, args ...interface{}) error
 	First(result interface{}, args ...interface{}) error
 	Select(query interface{}, args ...interface{}) Find

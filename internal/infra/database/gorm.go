@@ -185,8 +185,8 @@ func (f *GormFind) Not(query interface{}, args ...interface{}) repo.Find {
 	return f
 }
 
-func (f *GormFind) Count(total int64) error {
-	return f.db.Count(&total).Error
+func (f *GormFind) Count(total *int64) error {
+	return f.db.Count(total).Error
 }
 
 func (f *GormFind) Find(result interface{}, args ...interface{}) error {

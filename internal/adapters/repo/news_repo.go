@@ -2,6 +2,7 @@ package repo
 
 import (
 	"context"
+	"fmt"
 	"neuro-most/news-service/internal/entities"
 	"time"
 )
@@ -76,7 +77,8 @@ func (n NewsRepo) Fetch(ctx context.Context, cursor int64, num int64) ([]entitie
 	var news []newsGORM
 	query := n.db.BeginFind(ctx, &news)
 	var total int64
-	query.Count(total)
+	query.Count(&total)
+	fmt.Println(total)
 	query = query.Page(int(cursor), int(num)).OrderBy("id desc")
 	err := query.Find(&news)
 	if err != nil {
