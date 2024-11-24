@@ -135,7 +135,7 @@ func (g *GormDB) BeginFind(ctx context.Context, value interface{}) repo.Find {
 
 // Delete удаляет записи по условию
 func (g *GormDB) Delete(ctx context.Context, data interface{}, condition interface{}, args ...interface{}) error {
-	return g.db.WithContext(ctx).Where(condition, args...).Delete(data).Error
+	return g.db.WithContext(ctx).Model(data).Where(condition, args...).Delete(data).Error
 }
 
 // DeleteByQuery удаляет записи по запросу
