@@ -6,4 +6,4 @@ resources:
 - deployment.yaml
 images:
 - name: ghcr.io/impit-mpit/news-service-master
-  newTag: e4f6108
+  newTag: 67df2ec
