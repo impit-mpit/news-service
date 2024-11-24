@@ -54,7 +54,14 @@ func (r *Router) CreateNews(ctx context.Context, input *newsv1.CreateNewsRequest
 }
 
 func (r *Router) DeleteNews(context.Context, *newsv1.DeleteNewsRequest) (*emptypb.Empty, error) {
-	return &emptypb.Empty{}, nil
+	var (
+		uc = usecase.NewDeleteNewsInteractor(
+			repo.NewNewsRepo(r.db),
+		)
+		act = action.NewDeleteNewsAction(uc)
+	)
+
+	return &emptypb.Empty{}, act.Execute(context.Background(), &newsv1.DeleteNewsRequest{})
 }
 
 func (r *Router) GetNewsById(ctx context.Context, input *newsv1.GetNewsByIdRequest) (*newsv1.News, error) {
