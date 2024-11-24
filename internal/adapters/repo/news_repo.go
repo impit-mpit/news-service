@@ -59,7 +59,7 @@ func (n NewsRepo) Update(ctx context.Context, news entities.News) error {
 }
 
 func (n NewsRepo) Delete(ctx context.Context, id int64) error {
-	if err := n.db.Delete(ctx, &newsGORM{ID: id}, &newsGORM{ID: id}); err != nil {
+	if err := n.db.Delete(ctx, &newsGORM{}, "id = ?", id); err != nil {
 		return entities.ErrorNewsDelete
 	}
 	return nil
